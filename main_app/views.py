@@ -7,7 +7,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Food, Meal
-from .forms import FeedingForm
+
 
 # Create your views here.
 class Home(LoginView):
@@ -25,9 +25,8 @@ def food_index(request):
 def food_detail(request, food_id):
   food = Food.objects.get(id=food_id)
   meals_food_doesnt_have = Meal.objects.exclude(id__in = food.meals.all().values_list('id'))
-  feeding_form = FeedingForm()
   return render(request, 'food/detail.html', {
-    'food': food, 'feeding_form': feeding_form, 'meals': meals_food_doesnt_have
+    'food': food, 'meals': meals_food_doesnt_have
   })
 
 class FoodCreate(LoginRequiredMixin, CreateView):
@@ -46,14 +45,6 @@ class FoodDelete(LoginRequiredMixin, DeleteView):
   model = Food
   success_url = '/food/'
 
-@login_required
-def add_feeding(request, food_id):
-  form = FeedingForm(request.POST)
-  if form.is_valid():
-    new_feeding = form.save(commit=False)
-    new_feeding.food_id = food_id
-    new_feeding.save()
-  return redirect('food_detail', food_id=food_id)
 
 class MealCreate(LoginRequiredMixin, CreateView):
   model = Meal
