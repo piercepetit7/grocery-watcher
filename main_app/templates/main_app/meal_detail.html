@@ -1,0 +1,24 @@
+{% extends 'base.html' %} 
+{% load static %} 
+
+{% block head %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'css/meals/meal-detail.css' %}"
+/>
+{% endblock %}
+
+{% block content %}
+  
+<div class="card" style="border-type: {{ meal.type }}">
+  <div class="card-bg" style="background-type: {{ meal.type }}"></div>
+  <div class="card-content">
+    <h2>{{ meal.name }}</h2>
+    <p>A {{ meal.type }} meal</p>
+  </div>
+</div>
+<a href="{% url 'meals_update' meal.id %}" class="btn warn">Edit</a>
+<a href="{% url 'meals_delete' meal.id %}" class="btn danger">Delete</a>
+
+{% endblock %}

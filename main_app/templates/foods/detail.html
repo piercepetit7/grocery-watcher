@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link 
+  href="https://cdn.jsdelivr.net/npm/mc-datepicker/dist/mc-calendar.min.css" 
+  rel="stylesheet" 
+/>
+<link rel="stylesheet" href="{% static 'css/mcdp.css' %}">
+<script 
+  src="https://cdn.jsdelivr.net/npm/mc-datepicker/dist/mc-calendar.min.js"
+>
+</script>
+<link 
+  rel="stylesheet" 
+  type="text/css" 
+  href=""
+/>
+<script defer src=""></script>
+{% endblock %}
+
+{% block content %}
+
+<section class="food-container">
+  <div class="food-img">
+  </div>
+  <div class="food-details">
+    <h1>{{ food.name }}</h1>
+    {% if food.expiration > 0 %}
+      <h2>A {{ food.expiration }} year old {{ food.type }}</h2>
+    {% else %}
+      <h2>A {{ food.type }} kitten.</h2>
+    {% endif %}
+    <p>{{ food.description }}</p>
+    <div class="food-actions">
+      <a href="{% url 'foods_update' food.id %}" class="btn warn">Edit</a>
+      <a href="{% url 'foods_delete' food.id %}" class="btn danger">Delete</a>
+    </div>
+  </div>
+</section>
+
+<div class="meal-container">
+  <section class="meals">
+    <div class="subsection-title">
+      <h2>Meals</h2>
+    </div>
+    <h3>{{ food.name }}'s Meals</h3>
+    <div class="subsection-content">
+      {% if food.meals.count %}
+        {% for meal in food.meals.all %}
+          <div class="meal-container">
+            <div 
+              class="color-block"
+              style="background-color: {{ meal.type }}"
+            ></div>
+            <a href="{% url 'meals_detail' meal.id %}">
+              <p>A {{ meal.type }} {{ meal.name }}</p>
+            </a>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p class="no-meals">{{ food.name }} doesn't belong to any meals</p>
+      {% endif %}
+    </div>
+    <h3>Available Meals</h3>
+    <div class="subsection-content">
+      {% if meals.count %}
+        {% for meal in meals.all%}
+          <div class="meal-container">
+            <div 
+              class="color-block"
+              style="background-color: {{ meal.type }}"
+            ></div>
+            <a href="{% url 'meals_detail' meal.id %}">
+              <p>A {{ meal.type }} {{ meal.name }}</p>
+            </a>
+            <form action="{% url 'assoc_meal' food.id meal.id %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn submit">add meal</button>
+            </form>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p class="all-meals">
+          {{food.name}} already has all the available meals 🥳
+        </p>
+      {% endif %}
+    </div>
+</div>
+
+{% endblock %}
+  
