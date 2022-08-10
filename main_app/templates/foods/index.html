@@ -22,9 +22,9 @@
         <div class="card-content">
           <h2 class="card-title">{{ food.name }}</h2>
           {% if food.expiration > 0 %}
-            <p>A {{ food.expiration }} year old {{ food.type }}</p>
+            <p>This item expires on {{ food.expiration }} it is {{ food.type }}!</p>
           {% else %}
-            <p>A {{ food.type }} Puppy.</p>
+            <p>It is {{ food.type }}.</p>
           {% endif %}
           <p><small>{{ food.description }}</small></p>
         </div>

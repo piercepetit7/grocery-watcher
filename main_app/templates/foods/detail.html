@@ -27,9 +27,9 @@
   <div class="food-details">
     <h1>{{ food.name }}</h1>
     {% if food.expiration > 0 %}
-      <h2>A {{ food.expiration }} year old {{ food.type }}</h2>
+      <h2>This item expires on {{ food.expiration }} it is {{ food.type }}!</h2>
     {% else %}
-      <h2>A {{ food.type }} kitten.</h2>
+      <h2>It is {{ food.type }}.</h2>
     {% endif %}
     <p>{{ food.description }}</p>
     <div class="food-actions">
@@ -82,7 +82,7 @@
         {% endfor %}
       {% else %}
         <p class="all-meals">
-          {{food.name}} already has all the available meals 🥳
+          this is super nessasary{{food.name}}!
         </p>
       {% endif %}
     </div>
