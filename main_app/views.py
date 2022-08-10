@@ -18,15 +18,15 @@ def about(request):
 
 @login_required
 def food_index(request):
-  food = Food.objects.filter(user=request.user)
-  return render(request, 'food/index.html', { 'food': food })
+  foods = Food.objects.filter(user=request.user)
+  return render(request, 'foods/index.html', { 'foods': foods })
 
 @login_required
 def food_detail(request, food_id):
-  food = Food.objects.get(id=food_id)
-  meals_food_doesnt_have = Meal.objects.exclude(id__in = food.meals.all().values_list('id'))
-  return render(request, 'food/detail.html', {
-    'food': food, 'meals': meals_food_doesnt_have
+  foods = Food.objects.get(id=food_id)
+  meals_food_doesnt_have = Meal.objects.exclude(id__in = foods.meals.all().values_list('id'))
+  return render(request, 'foods/detail.html', {
+    'foods': foods, 'meals': meals_food_doesnt_have
   })
 
 class FoodCreate(LoginRequiredMixin, CreateView):
@@ -43,7 +43,7 @@ class FoodUpdate(LoginRequiredMixin, UpdateView):
 
 class FoodDelete(LoginRequiredMixin, DeleteView):
   model = Food
-  success_url = '/food/'
+  success_url = '/foods/'
 
 
 class MealCreate(LoginRequiredMixin, CreateView):
@@ -67,7 +67,7 @@ class MealDelete(LoginRequiredMixin, DeleteView):
 @login_required
 def assoc_meal(request, food_id, meal_id):
   Food.objects.get(id=food_id).meals.add(meal_id)
-  return redirect('food_detail', food_id=food_id)
+  return redirect('foods_detail', food_id=food_id)
 
 def signup(request):
   error_message = ""
@@ -76,7 +76,7 @@ def signup(request):
     if form.is_valid():
       user = form.save()
       login(request, user)
-      return redirect('food_index')
+      return redirect('foods_index')
     else:
       error_message = "Invalid sign up - try again"
   form = UserCreationForm()

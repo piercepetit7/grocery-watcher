@@ -29,9 +29,9 @@
     <nav>
       <ul>
         {% if user.is_authenticated %}
-          <li><a href="{% url 'food_index' %}">All Food items</a></li>
+          <li><a href="{% url 'foods_index' %}">All Food items</a></li>
           <li><a href="{% url 'meals_index' %}">All Meals</a></li>
-          <li><a href="{% url 'food_create' %}">Add a Food</a></li>
+          <li><a href="{% url 'foods_create' %}">Add a Food</a></li>
           <li><a href="{% url 'meals_create' %}">Add a Meal</a></li>
           <li><a href="{% url 'about' %}">About</a></li>
           <li><a href="{% url 'logout' %}">Log out</a></li>
