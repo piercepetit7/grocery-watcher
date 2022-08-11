@@ -11,6 +11,7 @@ class Meal(models.Model):
   meal_time = models.CharField(max_length=20)
   meal_ingredients = models.CharField(max_length=150)
   day_of_week = models.CharField(max_length=30)
+  user = models.ForeignKey(User, on_delete=models.CASCADE)
 
   def __str__(self):
     return self.name

@@ -22,7 +22,7 @@
     <a href="{% url 'meals_detail' meal.id %}">
       <div class="card-content">
         <h2>{{ meal.name }}</h2>
-        <p>A {{ meal.type }} time meal!</p>
+        <p>A {{ meal.meal_time }} time meal for {{ meal.day_of_week }}!</p>
       </div>
     </a>
   </div>

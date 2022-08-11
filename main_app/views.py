@@ -1,3 +1,4 @@
+from urllib import request
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
@@ -23,8 +24,8 @@ class MealCreate(LoginRequiredMixin, CreateView):
   fields = '__all__'
   success_url = '/meals/'
 
-class MealList(LoginRequiredMixin, ListView):
-  model = Meal
+class MealList(LoginRequiredMixin, ListView, request):
+  model = Meal.filter(user=request.user)
 
 class MealDetail(LoginRequiredMixin, DetailView):
   model = Meal
