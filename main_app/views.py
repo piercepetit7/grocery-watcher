@@ -21,11 +21,11 @@ def about(request):
 
 class MealCreate(LoginRequiredMixin, CreateView):
   model = Meal
-  fields = '__all__'
+  fields = ['name', 'meal_time', 'meal_ingredients', 'day_of_week']
   success_url = '/meals/'
 
-class MealList(LoginRequiredMixin, ListView, request):
-  model = Meal.filter(user=request.user)
+class MealList(LoginRequiredMixin, ListView):
+  model = Meal
 
 class MealDetail(LoginRequiredMixin, DetailView):
   model = Meal
