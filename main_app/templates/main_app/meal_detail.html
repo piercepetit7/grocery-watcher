@@ -15,7 +15,9 @@
   <div class="card-bg" style="background-type: {{ meal.type }}"></div>
   <div class="card-content">
     <h2>{{ meal.name }}</h2>
-    <p>A {{ meal.type }} time meal</p>
+    <p>{{ meal.meal_ingredients }}</p>
+    <p>A {{ meal.meal_time }} time meal</p>
+    <p>This meal is planned for {{ meal.day_of_week }}!</p>
   </div>
 </div>
 <a href="{% url 'meals_update' meal.id %}" class="btn warn">Edit</a>
