@@ -6,7 +6,8 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Food, Meal
+from .models import Meal
+
 
 
 # Create your views here.
@@ -16,39 +17,11 @@ class Home(LoginView):
 def about(request):
   return render(request, 'about.html')
 
-@login_required
-def food_index(request):
-  foods = Food.objects.filter(user=request.user)
-  return render(request, 'foods/index.html', { 'foods': foods })
-
-@login_required
-def food_detail(request, food_id):
-  foods = Food.objects.get(id=food_id)
-  meals_food_doesnt_have = Meal.objects.exclude(id__in = foods.meals.all().values_list('id'))
-  return render(request, 'foods/detail.html', {
-    'foods': foods, 'meals': meals_food_doesnt_have
-  })
-
-class FoodCreate(LoginRequiredMixin, CreateView):
-  model = Food
-  fields = ['name', 'type', 'description', 'expiration']
-
-  def form_valid(self, form):
-    form.instance.user = self.request.user
-    return super().form_valid(form)
-
-class FoodUpdate(LoginRequiredMixin, UpdateView):
-  model = Food
-  fields = ['type', 'description', 'expiration']
-
-class FoodDelete(LoginRequiredMixin, DeleteView):
-  model = Food
-  success_url = '/foods/'
-
 
 class MealCreate(LoginRequiredMixin, CreateView):
   model = Meal
   fields = '__all__'
+  success_url = '/meals/'
 
 class MealList(LoginRequiredMixin, ListView):
   model = Meal
@@ -58,16 +31,12 @@ class MealDetail(LoginRequiredMixin, DetailView):
 
 class MealUpdate(LoginRequiredMixin, UpdateView):
   model = Meal
-  fields = ['name', 'color']
+  fields = ['name', 'meal_time', 'meal_ingredients', 'day_of_week']
+  success_url = '/meals/'
 
 class MealDelete(LoginRequiredMixin, DeleteView):
   model = Meal
   success_url = '/meals/'
-
-@login_required
-def assoc_meal(request, food_id, meal_id):
-  Food.objects.get(id=food_id).meals.add(meal_id)
-  return redirect('foods_detail', food_id=food_id)
 
 def signup(request):
   error_message = ""
@@ -76,7 +45,7 @@ def signup(request):
     if form.is_valid():
       user = form.save()
       login(request, user)
-      return redirect('foods_index')
+      return redirect('meals_index')
     else:
       error_message = "Invalid sign up - try again"
   form = UserCreationForm()
